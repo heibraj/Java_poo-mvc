@@ -7,49 +7,42 @@ package Controlador;
 import Modelo.Modelo;
 import Vista.Vista;
 import java.util.Random;
-import java.util.Scanner;
 
-
+/**
+ *
+ * @author Usuario
+ */
 public class Controlador {
-     private Modelo sistema;
+     private Modelo modelo;
     private Vista vista;
     private Random random;
-    private Scanner scanner;
 
     public Controlador() {
-        sistema = new Modelo();
+        modelo = new Modelo();
         vista = new Vista();
         random = new Random();
-        scanner = new Scanner(System.in);
     }
 
-    public void monitorear(boolean esNoche) {
-        for (int i = 0; i < 3; i++) {
-            sistema.activarSensor(i, random.nextBoolean());
-        }
-        sistema.verificarAlarma(esNoche);
-        vista.mostrarEstadoAlarma(sistema.isAlarmaActivada());
-    }
- public void ejecutar() {
-        int opcion;
-        do {
-            System.out.println("1. Activar monitoreo nocturno");
-            System.out.println("2. Desactivar monitoreo");
-            System.out.println("0. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = scanner.nextInt();
+    public void controlarTemperatura() {
+        while (true) {
+            double temperatura = 5 + (35 - 5) * random.nextDouble();
+            modelo.registrarTemperatura(temperatura);
+            vista.mostrarTemperatura(temperatura);
 
-            if (opcion == 1) {
-                monitorear(true);
-            } else if (opcion == 2) {
-                monitorear(false);
-            } else if (opcion == 0) {
-                System.out.println("Saliendo...");
+            if (temperatura < 10) {
+                vista.mostrarEstado("Calefactor encendido");
+            } else if (temperatura > 25) {
+                vista.mostrarEstado("Ventilador encendido");
             } else {
-                System.out.println("Opción no válida.");
+                vista.mostrarEstado("Inactivo");
             }
-        } while (opcion != 0);
 
-      
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                System.out.println("Error en la espera: " + e.getMessage());
+            }
+        }
     }
+
 }

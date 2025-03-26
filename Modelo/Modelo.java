@@ -4,33 +4,25 @@
  */
 package Modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Usuario
  */
 public class Modelo {
-      private boolean[] sensores;
-    private boolean alarma;
+     private ArrayList<Double> temperaturas;
 
     public Modelo() {
-        sensores = new boolean[3];
-        alarma = false;
+        temperaturas = new ArrayList<>();
     }
 
-    public void activarSensor(int indice, boolean estado) {
-        sensores[indice] = estado;
+    public void registrarTemperatura(double temperatura) {
+        temperaturas.add(temperatura);
     }
 
-    public void verificarAlarma(boolean esNoche) {
-        int activados = 0;
-        for (boolean sensor : sensores) {
-            if (sensor) activados++;
-        }
-        alarma = esNoche && activados >= 2;
-    }
-
-    public boolean isAlarmaActivada() {
-        return alarma;
+    public ArrayList<Double> getTemperaturas() {
+        return temperaturas;
     }
 
 }
