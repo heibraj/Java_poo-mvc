@@ -4,25 +4,35 @@
  */
 package Modelo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Usuario
  */
 public class Modelo {
-     private ArrayList<Double> temperaturas;
+    
+ private String[] miembros;
+    private String[] empleados;
 
     public Modelo() {
-        temperaturas = new ArrayList<>();
+        miembros = new String[]{"Juan", "Maria", "Carlos", "Ana"};
+        empleados = new String[]{"Pedro", "Luis", "Sofia"};
     }
 
-    public void registrarTemperatura(double temperatura) {
-        temperaturas.add(temperatura);
+    public boolean esMiembro(String nombre) {
+        for (String miembro : miembros) {
+            if (miembro.equalsIgnoreCase(nombre)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public ArrayList<Double> getTemperaturas() {
-        return temperaturas;
+    public boolean esEmpleado(String nombre) {
+        for (String empleado : empleados) {
+            if (empleado.equalsIgnoreCase(nombre)) {
+                return true;
+            }
+        }
+        return false;
     }
-
 }

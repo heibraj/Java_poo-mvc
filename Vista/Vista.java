@@ -1,20 +1,40 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Vista;
+
+import java.util.Scanner;
 
 /**
  *
  * @author Usuario
  */
 public class Vista {
-      public void mostrarEstado(String estado) {
-        System.out.println("Estado: " + estado);
+    private Scanner scanner;
+    public Vista(){
+        scanner= new Scanner(System.in);
     }
-
-    public void mostrarTemperatura(double temperatura) {
-        System.out.println("Temperatura actual: " + temperatura + "°C");
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
     }
-
+    
+    
+    public void mostrarmenu(){
+         System.out.println("1. Verificar acceso");
+         System.out.println("0. Salir");
+         System.out.print("Seleccione una opción: ");
+    }
+    
+    
+    
+    public int tomarOpcion(){
+        int opcion = scanner.nextInt();
+      
+        return opcion;
+         
+        
+        
+        
+    }
 }

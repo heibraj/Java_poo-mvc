@@ -6,43 +6,53 @@ package Controlador;
 
 import Modelo.Modelo;
 import Vista.Vista;
-import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
  * @author Usuario
  */
 public class Controlador {
-     private Modelo modelo;
+    private Modelo tienda;
     private Vista vista;
-    private Random random;
+    private Scanner scanner;
 
     public Controlador() {
-        modelo = new Modelo();
+        tienda = new Modelo();
         vista = new Vista();
-        random = new Random();
+        scanner= new Scanner(System.in);
     }
 
-    public void controlarTemperatura() {
-        while (true) {
-            double temperatura = 5 + (35 - 5) * random.nextDouble();
-            modelo.registrarTemperatura(temperatura);
-            vista.mostrarTemperatura(temperatura);
-
-            if (temperatura < 10) {
-                vista.mostrarEstado("Calefactor encendido");
-            } else if (temperatura > 25) {
-                vista.mostrarEstado("Ventilador encendido");
-            } else {
-                vista.mostrarEstado("Inactivo");
-            }
-
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                System.out.println("Error en la espera: " + e.getMessage());
-            }
+    public void verificarAcceso(String nombre, boolean horarioAtencion) {
+        if ((tienda.esMiembro(nombre) && horarioAtencion) || tienda.esEmpleado(nombre)) {
+            vista.mostrarMensaje("Acceso permitido para " + nombre);
+        } else {
+            vista.mostrarMensaje("Acceso denegado para " + nombre);
         }
     }
-
+    
+    
+    public void ejecucion(){
+        int opcion;
+        do{
+          vista.mostrarmenu();
+          opcion= vista.tomarOpcion();
+           scanner.nextLine();
+          switch(opcion){
+              case 1:
+                   System.out.print("Ingrese el nombre: ");
+                    String nombre = scanner.nextLine();
+                    
+                    System.out.print("¿Es horario de atención? (true/false): ");
+                    boolean horarioAtencion = scanner.nextBoolean();
+                    verificarAcceso(nombre, horarioAtencion);
+                  break;
+          }
+            
+            
+        }while(opcion !=2);
+    }
+    
+    
+    
 }
