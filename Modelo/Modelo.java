@@ -4,40 +4,33 @@
  */
 package Modelo;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Usuario
  */
 public class Modelo {
-    private boolean encendida;
-    private ArrayList<String> registros;
+      private boolean[] sensores;
+    private boolean alarma;
 
     public Modelo() {
-        registros = new ArrayList<>();
+        sensores = new boolean[3];
+        alarma = false;
     }
 
-    public void encender() {
-        encendida = true;
+    public void activarSensor(int indice, boolean estado) {
+        sensores[indice] = estado;
     }
 
-    public void apagar() {
-        encendida = false;
-    }
-
-    public boolean isEncendida() {
-        return encendida;
-    }
-
-    public void agregarRegistro(String registro) {
-        registros.add(registro);
-    }
-
-    public void mostrarRegistros() {
-        System.out.println("Registros de estado de luces:");
-        for (String registro : registros) {
-            System.out.println(registro);
+    public void verificarAlarma(boolean esNoche) {
+        int activados = 0;
+        for (boolean sensor : sensores) {
+            if (sensor) activados++;
         }
+        alarma = esNoche && activados >= 2;
     }
+
+    public boolean isAlarmaActivada() {
+        return alarma;
+    }
+
 }

@@ -6,73 +6,50 @@ package Controlador;
 
 import Modelo.Modelo;
 import Vista.Vista;
+import java.util.Random;
 import java.util.Scanner;
 
 
-/**
- *
- * @author Usuario
- */
 public class Controlador {
-      private Modelo Modelo;
+     private Modelo sistema;
     private Vista vista;
+    private Random random;
+    private Scanner scanner;
 
     public Controlador() {
-        Modelo = new Modelo();
+        sistema = new Modelo();
         vista = new Vista();
+        random = new Random();
+        scanner = new Scanner(System.in);
     }
 
-    public void controlarLuces(boolean esNoche, boolean hayMovimiento) {
-        String registro = "Noche: " + esNoche + ", Movimiento: " + hayMovimiento;
-        Modelo.agregarRegistro(registro);
-
-        if (esNoche && hayMovimiento) {
-            Modelo.encender();
-        } else {
-            Modelo.apagar();
+    public void monitorear(boolean esNoche) {
+        for (int i = 0; i < 3; i++) {
+            sistema.activarSensor(i, random.nextBoolean());
         }
-
-        vista.mostrarEstado(Modelo.isEncendida());
+        sistema.verificarAlarma(esNoche);
+        vista.mostrarEstadoAlarma(sistema.isAlarmaActivada());
     }
-
-    public void mostrarRegistros() {
-        Modelo.mostrarRegistros();
-    }
-
-    public void iniciarSimulacion() {
-        Scanner scanner = new Scanner(System.in);
+ public void ejecutar() {
         int opcion;
-
         do {
-            vista.mostrarMenu();
+            System.out.println("1. Activar monitoreo nocturno");
+            System.out.println("2. Desactivar monitoreo");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
 
-            switch (opcion) {
-                case 1 :
-                    boolean esNoche = vista.pedirBooleano("¿Es de noche? (true/false): ", scanner);
-                    boolean hayMovimiento = vista.pedirBooleano("¿Hay movimiento en la habitación? (true/false): ", scanner);
-                    controlarLuces(esNoche, hayMovimiento);
-                    try {
-                        Thread.sleep(10000); 
-                    } catch (InterruptedException e) {
-                        vista.mostrarMensaje("Error en la simulación: " + e.getMessage());
-                    }
-                break;
-                case 2 : 
-                    mostrarRegistros();
-                    break;
-                case 0 :
-                    vista.mostrarMensaje("Saliendo...");
-                    break;
-                default : 
-                    vista.mostrarMensaje("Opción no válida.");
-                break;
+            if (opcion == 1) {
+                monitorear(true);
+            } else if (opcion == 2) {
+                monitorear(false);
+            } else if (opcion == 0) {
+                System.out.println("Saliendo...");
+            } else {
+                System.out.println("Opción no válida.");
             }
         } while (opcion != 0);
 
-        scanner.close();
+      
     }
-    }
-    
-    
-
+}
