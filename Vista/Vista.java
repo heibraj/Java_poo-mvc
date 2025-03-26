@@ -11,30 +11,27 @@ import java.util.Scanner;
  * @author Usuario
  */
 public class Vista {
-    private Scanner scanner;
-    public Vista(){
-        scanner= new Scanner(System.in);
-    }
-     public void mostrarEstado(boolean encendido) {
-        if (encendido) {
-            System.out.println("Aire acondicionado encendido.");
+     public void mostrarEstado(boolean encendida) {
+        if (encendida) {
+            System.out.println("Luces encendidas.");
         } else {
-            System.out.println("Aire acondicionado apagado.");
+            System.out.println("Luces apagadas.");
         }
     }
-     
-     public void menu(){
-          System.out.println("1. Registrar temperatura y humedad");
-            System.out.println("2. Ver registros");
-            System.out.println("0. Salir");
-            System.out.print("Seleccione una opción: ");
-     }
-     
-     public int tomaropcion(){
- int opcion = scanner.nextInt();
-      
-        return opcion;
-     }
-     
-     
+
+    public void mostrarMenu() {
+        System.out.println("1. Simular estado de luces");
+        System.out.println("2. Ver registros");
+        System.out.println("0. Salir");
+        System.out.print("Seleccione una opción: ");
+    }
+
+    public boolean pedirBooleano(String mensaje, Scanner scanner) {
+        System.out.print(mensaje);
+        return scanner.nextBoolean();
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
 }

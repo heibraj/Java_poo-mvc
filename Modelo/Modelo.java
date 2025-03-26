@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Usuario
  */
 public class Modelo {
-     private boolean encendido;
+    private boolean encendida;
     private ArrayList<String> registros;
 
     public Modelo() {
@@ -19,15 +19,15 @@ public class Modelo {
     }
 
     public void encender() {
-        encendido = true;
+        encendida = true;
     }
 
     public void apagar() {
-        encendido = false;
+        encendida = false;
     }
 
-    public boolean isEncendido() {
-        return encendido;
+    public boolean isEncendida() {
+        return encendida;
     }
 
     public void agregarRegistro(String registro) {
@@ -35,7 +35,7 @@ public class Modelo {
     }
 
     public void mostrarRegistros() {
-        System.out.println("Registros de temperatura y humedad:");
+        System.out.println("Registros de estado de luces:");
         for (String registro : registros) {
             System.out.println(registro);
         }

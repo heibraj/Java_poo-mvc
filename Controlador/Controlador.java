@@ -8,74 +8,71 @@ import Modelo.Modelo;
 import Vista.Vista;
 import java.util.Scanner;
 
+
 /**
  *
  * @author Usuario
  */
 public class Controlador {
-        private Modelo modelo;
+      private Modelo Modelo;
     private Vista vista;
-     private Scanner scanner;
 
     public Controlador() {
-        modelo = new Modelo();
+        Modelo = new Modelo();
         vista = new Vista();
-        scanner= new Scanner(System.in);
     }
 
-    public void controlarAire(int temperatura, int humedad) {
-        String registro = "Temperatura: " + temperatura + "°C, Humedad: " + humedad + "%";
-        modelo.agregarRegistro(registro);
+    public void controlarLuces(boolean esNoche, boolean hayMovimiento) {
+        String registro = "Noche: " + esNoche + ", Movimiento: " + hayMovimiento;
+        Modelo.agregarRegistro(registro);
 
-        if ((temperatura > 28 && humedad > 60) || temperatura > 30) {
-            modelo.encender();
+        if (esNoche && hayMovimiento) {
+            Modelo.encender();
         } else {
-            modelo.apagar();
+            Modelo.apagar();
         }
 
-        vista.mostrarEstado(modelo.isEncendido());
+        vista.mostrarEstado(Modelo.isEncendida());
     }
 
     public void mostrarRegistros() {
-        modelo.mostrarRegistros();
+        Modelo.mostrarRegistros();
     }
-    
-    
 
-
-    public void ejecutarRegistro() {
+    public void iniciarSimulacion() {
+        Scanner scanner = new Scanner(System.in);
         int opcion;
-        do {
-           
-           vista.menu();
-            opcion = vista.tomaropcion();
-          
 
-           
+        do {
+            vista.mostrarMenu();
+            opcion = scanner.nextInt();
+
             switch (opcion) {
-                case 1 : 
-                    System.out.print("Ingrese la temperatura (°C): ");
-                    int temperatura = scanner.nextInt();
-                    
-                    System.out.print("Ingrese la humedad (%): ");
-                    int humedad = scanner.nextInt();
-                    
-                    controlarAire(temperatura, humedad);
+                case 1 :
+                    boolean esNoche = vista.pedirBooleano("¿Es de noche? (true/false): ", scanner);
+                    boolean hayMovimiento = vista.pedirBooleano("¿Hay movimiento en la habitación? (true/false): ", scanner);
+                    controlarLuces(esNoche, hayMovimiento);
+                    try {
+                        Thread.sleep(10000); 
+                    } catch (InterruptedException e) {
+                        vista.mostrarMensaje("Error en la simulación: " + e.getMessage());
+                    }
                 break;
-                case 2: 
+                case 2 : 
                     mostrarRegistros();
                     break;
                 case 0 :
-                    System.out.println("Saliendo...");
+                    vista.mostrarMensaje("Saliendo...");
                     break;
-                default :
-                    System.out.println("Opción no válida.");
-                    break;
+                default : 
+                    vista.mostrarMensaje("Opción no válida.");
+                break;
             }
-        } while (opcion != 0); 
+        } while (opcion != 0);
 
-        scanner.close(); 
+        scanner.close();
+    }
     }
     
     
-}
+
